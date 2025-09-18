@@ -96,12 +96,6 @@
   </button>
 </nav>
 
-<script>
-  document.getElementById("upload-button").addEventListener("click", function (event) {
-    event.preventDefault(); // cegah klik default yang bisa ditangkap popunder
-    window.open("https://link-upload-kamu.com", "_blank"); // buka di tab baru
-  });
-</script>
 
   <main class="pt-20 pb-10">
     <div id="video-container" class="mt-4">
@@ -245,5 +239,11 @@
       });
     });
   </script>
+    <script>
+  document.getElementById("upload-button").addEventListener("click", function (event) {
+    event.preventDefault(); // cegah klik default yang bisa ditangkap popunder
+    window.open("https://link-upload-kamu.com", "_blank"); // buka di tab baru
+  });
+</script>
 </body>
 </html>
