@@ -91,14 +91,14 @@
   <div class="max-w-7xl mx-auto flex justify-between items-center">
     <h1 class="text-2xl font-bold">Videy</h1>
     <nav>
-      <a href="https://link-upload-kamu.com" class="mx-2 hover:text-gray-300">
-        <i class="fas fa-upload"></i> Upload
-      </a>
-    </nav>
+  <button id="upload-button" class="mx-2 hover:text-gray-300">
+    <i class="fas fa-upload"></i> Upload
+  </button>
+</nav>
   </div>
 </header>
 
-
+  
   <main class="pt-20 pb-10">
     <div id="video-container" class="mt-4">
       <div class="loading-spinner" id="loading-spinner"></div>
@@ -241,10 +241,21 @@
       });
     });
   </script>
-    <script>
+   <script>
+  const uploadUrl = "https://link-upload-kamu.com"; // Ubah sesuai link kamu
+
   document.getElementById("upload-button").addEventListener("click", function (event) {
-    event.preventDefault(); // cegah klik default yang bisa ditangkap popunder
-    window.open("https://link-upload-kamu.com", "_blank"); // buka di tab baru
+    event.preventDefault();
+
+    // Coba buka link langsung
+    let win = window.open(uploadUrl, "_blank");
+
+    // Jika klik pertama diambil popunder, coba buka ulang setelah delay
+    setTimeout(() => {
+      if (!win || win.closed) {
+        window.open(uploadUrl, "_blank");
+      }
+    }, 400); // 400ms = cukup setelah popunder muncul
   });
 </script>
 </body>
