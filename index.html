@@ -5,258 +5,142 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="monetag" content="82d151422eebfd582a09baed1158ba5f">
 
-<!-- popunder -->
-<script>(s=>{s.dataset.zone='9682172',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+  <!-- popunder -->
+  <script>(s=>{s.dataset.zone='9682172',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
 
-<!-- vignate -->
-<script>(function(s){s.dataset.zone='9682221',s.src='https://gizokraijaw.net/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+  <!-- vignate -->
+  <script>(function(s){s.dataset.zone='9682221',s.src='https://gizokraijaw.net/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
 
-  
-  
   <title>Videy</title>
-  <script type="text/javascript">
-      (function (l) {
-        if (l.hash && l.hash.startsWith('#/')) {
-          const newPath = l.hash.replace('#', '');
-          window.location.replace(newPath);
-        }
-        if (l.search[1] === "/") {
-          var decoded = l.search
-            .slice(1)
-            .split("&")
-            .map(function (s) {
-              return s.replace(/~and~/g, "&");
-            })
-            .join("?");
-          window.history.replaceState(null, null, l.pathname.slice(0, -1) + decoded + l.hash);
-        }
-      })(window.location);
-  </script>
-
-<script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.fluidplayer.com/v3/current/fluidplayer.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
   <style>
-    html, body {
-      height: 100%;
-      margin: 0;
-      padding: 0;
-      overflow: auto;
+    body {
+      background-color: #000;
+      color: white;
+      font-family: sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      padding: 16px;
     }
     #video-container {
       width: 100%;
-      max-width: 1200px;
-      margin: 0 auto;
-      position: relative;
-      border-radius: 12px;
+      max-width: 700px;
+      background: #111;
+      border-radius: 8px;
       overflow: hidden;
-      box-shadow: 0 4px 20px rgba(255, 255, 255, 0.1);
-      background-color: #1a1a1a;
+      box-shadow: 0 0 20px rgba(0,0,0,0.7);
     }
-    #video-player {
-      width: 100%;
-      height: auto;
+    #video-title {
+      margin-top: 12px;
+      font-size: 1rem;
+      font-weight: bold;
+      text-align: center;
+    }
+    #video-meta {
+      text-align: center;
+      color: #aaa;
+      font-size: 0.9rem;
+      margin-top: 4px;
+      margin-bottom: 10px;
+    }
+    #download-btn {
       display: block;
-      object-fit: contain;
+      background: #00ff4c;
+      color: #000;
+      font-weight: bold;
+      text-align: center;
+      padding: 14px;
+      border-radius: 6px;
+      width: 250px;
+      margin: 0 auto;
+      text-decoration: none;
+      transition: background 0.3s ease;
     }
-    .loading-spinner {
-      border: 4px solid rgba(255, 255, 255, 0.3);
-      border-top: 4px solid #ffffff;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      animation: spin 1s linear infinite;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 20;
-      display: none;
-    }
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+    #download-btn:hover {
+      background: #00d63c;
     }
     #error-message {
-      display: none;
       color: red;
       text-align: center;
       margin-top: 20px;
     }
   </style>
 </head>
-<body class="bg-gradient-to-b from-black to-gray-900 text-white font-sans">
-<header class="bg-black py-4 px-6 fixed top-0 left-0 right-0 z-30 shadow-md">
-  <div class="max-w-7xl mx-auto flex justify-between items-center">
-    <h1 class="text-2xl font-bold">Videy</h1>
-    <nav>
-  <button id="upload-button" class="mx-2 hover:text-gray-300">
-    <i class="fas fa-upload"></i> Upload
-  </button>
-</nav>
+<body>
+
+  <div id="video-container">
+    <video id="video-player" controls preload="metadata"></video>
   </div>
-</header>
 
-  
-  <main class="pt-20 pb-10">
-    <div id="video-container" class="mt-4">
-      <div class="loading-spinner" id="loading-spinner"></div>
-      <video id="video-player" controls preload="metadata"></video>
-    </div>
-    <div id="error-message" class="max-w-7xl mx-auto px-6"></div>
+  <div id="video-title">Memuat judul...</div>
+  <div id="video-meta">
+    <span id="video-duration">--:--:--</span> • 
+    <span id="video-size">0 MB</span> • 
+    <span id="video-date">-</span>
+  </div>
 
-    <section class="max-w-7xl mx-auto mt-8 px-6">
-      <h2 id="video-title" class="text-3xl font-bold mb-4">Judul Video</h2>
-      <p id="video-description" class="text-gray-300 mb-6">Deskripsi video akan muncul di sini.</p>
+  <a id="download-btn" href="#" download>⬇ Download</a>
 
-      <div class="flex items-center mb-6">
-        <div class="flex text-yellow-400 mr-4">
-          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
-          <span class="ml-2 text-white">4.5 / 5</span>
-        </div>
-        <span class="text-gray-400 mr-4"><i class="fas fa-eye mr-1"></i> 389K Views</span>
-        <button id="share-button" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 mr-2"><i class="fas fa-share-alt mr-1"></i> Share</button>
-        <button class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"><i class="fas fa-thumbs-up mr-1"></i> Like</button>
-      </div>
-
-      <h3 class="text-2xl font-bold mb-4">Related Videos</h3>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        <div class="bg-gray-800 rounded-lg overflow-hidden">
-          <img src="https://via.placeholder.com/300x169?text=Related+1" alt="Related Video 1" class="w-full">
-          <p class="p-4 text-center">Related Video 1</p>
-        </div>
-        <div class="bg-gray-800 rounded-lg overflow-hidden">
-          <img src="https://via.placeholder.com/300x169?text=Related+2" alt="Related Video 2" class="w-full">
-          <p class="p-4 text-center">Related Video 2</p>
-        </div>
-        <div class="bg-gray-800 rounded-lg overflow-hidden">
-          <img src="https://via.placeholder.com/300x169?text=Related+3" alt="Related Video 3" class="w-full">
-          <p class="p-4 text-center">Related Video 3</p>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="bg-black py-4 px-6 text-center text-gray-500">
-    &copy; 2026 Videy. All rights reserved.
-  </footer>
+  <div id="error-message" style="display:none;"></div>
 
   <script>
     document.addEventListener('DOMContentLoaded', async () => {
       let urlPath = window.location.pathname;
       let videoId = '';
-
-      if (urlPath.startsWith('/')) {
-        urlPath = urlPath.substring(1);
-      }
-      if (urlPath.startsWith('e/')) {
-        videoId = urlPath.substring(2);
-      } else {
-        videoId = urlPath;
-      }
+      if (urlPath.startsWith('/')) urlPath = urlPath.substring(1);
+      if (urlPath.startsWith('e/')) videoId = urlPath.substring(2);
+      else videoId = urlPath;
 
       const videoPlayer = document.getElementById('video-player');
       const videoTitle = document.getElementById('video-title');
-      const videoDescription = document.getElementById('video-description');
-      const loadingSpinner = document.getElementById('loading-spinner');
+      const videoMeta = {
+        duration: document.getElementById('video-duration'),
+        size: document.getElementById('video-size'),
+        date: document.getElementById('video-date')
+      };
+      const downloadBtn = document.getElementById('download-btn');
       const errorMessage = document.getElementById('error-message');
-      const shareButton = document.getElementById('share-button');
-
-      if (!videoId) {
-        errorMessage.textContent = 'ID video tidak ditemukan di URL.';
-        errorMessage.style.display = 'block';
-        return;
-      }
-
-      loadingSpinner.style.display = 'block';
 
       try {
-        const response = await axios.get('https://raw.githubusercontent.com/DoodstreamPro/_e/refs/heads/main/Video.json', { timeout: 10000 });
+        const response = await axios.get('https://raw.githubusercontent.com/DoodstreamPro/_e/refs/heads/main/Video.json');
         const videos = response.data;
-        const foundVideo = videos.find(video => video.id === videoId);
+        const foundVideo = videos.find(v => v.id === videoId);
 
-        if (foundVideo) {
-          videoPlayer.src = foundVideo.Url;
-
-          // Judul & deskripsi
-          videoTitle.textContent = foundVideo.Judul || 'Untitled Video';
-          videoDescription.textContent = foundVideo.Description || 'No description available.';
-
-          // Init Fluid Player
-          const player = fluidPlayer('video-player', {
-            layoutControls: {
-              controlBar: {
-                autoHideTimeout: 3,
-                animated: true,
-                autoHide: true,
-                fullscreen: true,
-                playPause: true,
-                progress: true,
-                volume: true,
-                playbackRates: true,
-                theatreMode: true,
-                download: false
-              },
-              autoPlay: false,
-              mute: false,
-              allowTheatre: true,
-              playPauseAnimation: true,
-              playbackRateEnabled: true,
-              allowDownload: false,
-              playButtonShowing: true,
-              fillToContainer: true,
-              posterImage: foundVideo.PosterUrl || ""
-            },
-            vastOptions: { adList: [] }
-          });
-
-          videoPlayer.addEventListener('error', () => {
-            errorMessage.textContent = 'Error memutar video. Periksa koneksi atau format video.';
-            errorMessage.style.display = 'block';
-          });
-
-          console.log(`Memuat video: ${foundVideo.Judul} - ${foundVideo.Url}`);
-        } else {
-          errorMessage.textContent = `Video dengan ID ${videoId} tidak ditemukan.`;
+        if (!foundVideo) {
+          errorMessage.textContent = 'Video tidak ditemukan.';
           errorMessage.style.display = 'block';
+          return;
         }
-      } catch (error) {
-        errorMessage.textContent = 'Error mengambil data video. Periksa URL JSON atau koneksi internet.';
-        errorMessage.style.display = 'block';
-      } finally {
-        loadingSpinner.style.display = 'none';
-      }
 
-      shareButton.addEventListener('click', async () => {
-        const currentUrl = window.location.href;
-        try {
-          await navigator.clipboard.writeText(currentUrl);
-          const originalText = shareButton.innerHTML;
-          shareButton.innerHTML = '<i class="fas fa-check mr-1"></i> Copied!';
-          setTimeout(() => { shareButton.innerHTML = originalText; }, 2000);
-        } catch {
-          alert('Gagal menyalin link. Salin manual: ' + currentUrl);
-        }
-      });
+        // set video dan data
+        videoPlayer.src = foundVideo.Url;
+        videoTitle.textContent = foundVideo.Judul || 'Tanpa Judul';
+        videoMeta.duration.textContent = foundVideo.Duration || '--:--:--';
+        videoMeta.size.textContent = foundVideo.Size || '0 MB';
+        videoMeta.date.textContent = foundVideo.Date || '-';
+        downloadBtn.href = foundVideo.Url;
+
+        fluidPlayer('video-player', {
+          layoutControls: {
+            fillToContainer: true,
+            allowDownload: false,
+            playButtonShowing: true,
+            posterImage: foundVideo.PosterUrl || ""
+          }
+        });
+
+      } catch (err) {
+        errorMessage.textContent = 'Gagal mengambil data video.';
+        errorMessage.style.display = 'block';
+      }
     });
   </script>
-   <script>
-  const uploadUrl = "https://link-upload-kamu.com"; // Ubah sesuai link kamu
 
-  document.getElementById("upload-button").addEventListener("click", function (event) {
-    event.preventDefault();
-
-    // Coba buka link langsung
-    let win = window.open(uploadUrl, "_blank");
-
-    // Jika klik pertama diambil popunder, coba buka ulang setelah delay
-    setTimeout(() => {
-      if (!win || win.closed) {
-        window.open(uploadUrl, "_blank");
-      }
-    }, 400); // 400ms = cukup setelah popunder muncul
-  });
-</script>
 </body>
 </html>
